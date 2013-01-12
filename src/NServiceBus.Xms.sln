@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NServiceBus.Xms", "NServiceBus.Xms\NServiceBus.Xms.csproj", "{FBE40802-D0FC-4DF5-B7A4-B061283C7CDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NServiceBus.Xms.Tests", "NServiceBus.Xms.Tests\NServiceBus.Xms.Tests.csproj", "{C714FC96-BF7E-4611-8850-588C2A1CE1B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBE40802-D0FC-4DF5-B7A4-B061283C7CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE40802-D0FC-4DF5-B7A4-B061283C7CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE40802-D0FC-4DF5-B7A4-B061283C7CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE40802-D0FC-4DF5-B7A4-B061283C7CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C714FC96-BF7E-4611-8850-588C2A1CE1B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C714FC96-BF7E-4611-8850-588C2A1CE1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C714FC96-BF7E-4611-8850-588C2A1CE1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C714FC96-BF7E-4611-8850-588C2A1CE1B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
