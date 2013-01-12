@@ -2,6 +2,7 @@ using Autofac;
 using Messages;
 using NServiceBus.Unicast.Subscriptions;
 using NServiceBus.Unicast.Subscriptions.InMemory;
+using NServiceBus.Xms;
 using log4net.Config;
 
 namespace Publisher 
@@ -25,13 +26,13 @@ namespace Publisher
                 .With()
                 .AutofacBuilder(container)
                 .XmlSerializer(Namespaces.Default)
-                /*.XmsTransport()
-                    .IsTransactional(true)
-                    .PurgeOnStartup(false)*/
-                //.DBSubcriptionStorage()
-                .MsmqTransport()
+                .XmsTransport()
                     .IsTransactional(true)
                     .PurgeOnStartup(false)
+                //.DBSubcriptionStorage()
+                /*.MsmqTransport()
+                    .IsTransactional(true)
+                    .PurgeOnStartup(false)*/
                 .UnicastBus()
                     .ImpersonateSender(false)
                 .CreateBus();

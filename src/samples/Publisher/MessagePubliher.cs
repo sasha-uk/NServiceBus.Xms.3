@@ -32,7 +32,11 @@ namespace Publisher
                     continue;
                 }
 
-                if (input.Contains('/'))
+                if (input == "t")
+                {
+                    //bus.Send<HelloWorld>(new Address(),m => { m.Date = DateTime.Now; });
+                }
+                else if (input.Contains('/'))
                 {
                     var args = input.Split('/');
                     int threads = Convert.ToInt32(args[0]);
