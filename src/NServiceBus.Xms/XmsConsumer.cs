@@ -4,7 +4,7 @@ using log4net;
 
 namespace NServiceBus.Xms
 {
-    public class XmsConsumer : IDisposable
+    public class XmsConsumer : IXmsConsumer
     {
         private static readonly ILog log = LogManager.GetLogger(typeof (XmsProducer));
         private readonly XmsAddress address;

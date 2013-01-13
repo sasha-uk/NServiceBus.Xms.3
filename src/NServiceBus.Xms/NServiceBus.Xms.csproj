@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigureXmsMessageQueue.cs" />
+    <Compile Include="IXmsConsumer.cs" />
     <Compile Include="IXmsProducer.cs" />
     <Compile Include="Pooling\StackStore.cs" />
     <Compile Include="Pooling\ExpirableItem.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="XmsConsumer.cs" />
     <Compile Include="XmsHost.cs" />
     <Compile Include="XmsMessageQueueConfig.cs" />
+    <Compile Include="XmsPooledConsumer.cs" />
     <Compile Include="XmsPooledProducer.cs" />
     <Compile Include="XmsProducer.cs" />
     <Compile Include="XmsSendMessages.cs" />

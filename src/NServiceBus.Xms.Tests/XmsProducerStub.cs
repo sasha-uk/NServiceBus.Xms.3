@@ -3,15 +3,14 @@ using IBM.XMS;
 
 namespace NServiceBus.Xms.Tests
 {
-    public class XmsProducerStub:IXmsProducer
+    public class XmsProducerStub : IXmsProducer
     {
-        private Action<IBM.XMS.IMessage> sendAction = m =>{};
+        private Action<IBM.XMS.IMessage> sendAction = m => { };
         private Func<IBytesMessage> createBytesMessageAction = () => null;
         private Func<ITextMessage> createTextMessageAction = () => null;
 
         public void Dispose()
         {
-           
         }
 
         public XmsProducerStub StubSend(Action<IBM.XMS.IMessage> action)
@@ -46,6 +45,5 @@ namespace NServiceBus.Xms.Tests
         {
             return createTextMessageAction();
         }
-
     }
 }

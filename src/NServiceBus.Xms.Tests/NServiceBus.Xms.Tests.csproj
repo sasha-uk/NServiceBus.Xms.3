@@ -59,7 +59,9 @@
     <Compile Include="TestExtensions.cs" />
     <Compile Include="TestTargets.cs" />
     <Compile Include="XmsAddressTest.cs" />
+    <Compile Include="XmsConsumerStub.cs" />
     <Compile Include="XmsConsumerTest.cs" />
+    <Compile Include="XmsPooledConsumerTests.cs" />
     <Compile Include="XmsPooledProducerTests.cs" />
     <Compile Include="XmsProducerStub.cs" />
     <Compile Include="XmsProducerTest.cs" />
