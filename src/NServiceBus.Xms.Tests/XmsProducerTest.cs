@@ -47,6 +47,20 @@ namespace NServiceBus.Xms.Tests
         }
 
         [Test]
+        public void GIVE_transactional_producer_AND_no_transaction_WHEN_send_THEN_message_is_on_queue()
+        {
+            using (var producer = new XmsProducer(address, true))
+            {
+                var msg = producer.CreateTextMessage();
+                msg.Text = "message";
+                producer.Send(msg);
+            }
+            var after = XmsUtilities.GetCurrentQueueDebth(address);
+
+            Assert.That(after, Is.EqualTo(1));
+        }
+
+        [Test]
         public void The_same_producer_can_be_accessed_on_two_different_threads_give_trat_the_transaction_scopes_do_not_collide()
         {
             var producer = new XmsProducer(address, true);

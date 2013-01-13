@@ -40,6 +40,10 @@ namespace NServiceBus.Xms
         {
             if (!connected) Connect();
             producer.Send(message);
+            if (transactional && System.Transactions.Transaction.Current == null)
+            {
+                session.Commit();
+            }
         }
 
         public void Disconnect()

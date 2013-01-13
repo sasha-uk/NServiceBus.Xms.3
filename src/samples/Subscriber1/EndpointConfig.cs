@@ -1,5 +1,6 @@
 using Autofac;
 using Messages;
+using NServiceBus.Xms;
 using log4net.Config;
 
 namespace Subscriber1 
@@ -22,12 +23,12 @@ namespace Subscriber1
             Configure.With()
                 .AutofacBuilder(container)
                 .XmlSerializer(Namespaces.Default)
-                .MsmqTransport()
-                    .IsTransactional(true)
-                    .PurgeOnStartup(false)
-                /*.XmsTransport()
+                /*.MsmqTransport()
                     .IsTransactional(true)
                     .PurgeOnStartup(false)*/
+                .XmsTransport()
+                    .IsTransactional(true)
+                    .PurgeOnStartup(false)
                 .UnicastBus()
                     .LoadMessageHandlers()
                 .CreateBus();

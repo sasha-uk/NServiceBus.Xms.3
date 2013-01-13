@@ -1,27 +1,50 @@
 ﻿using System;
 using NServiceBus.Unicast.Queuing;
 using NServiceBus.Unicast.Transport;
-using NServiceBus.Xms.Utils;
 
 namespace NServiceBus.Xms
 {
-    public class XmsSendMessages : ISendMessages
+    public class XmsMessageSender : ISendMessages
     {
-        /// <summary>
-        ///     Determines if journaling should be activated
-        /// </summary>
-        public bool UseJournalQueue { get; set; }
+        private XmsProducerProvider provider;
 
-        /// <summary>
-        ///     Determines if the dead letter queue should be used
-        /// </summary>
+        public XmsMessageSender(bool transactional)
+        {
+            provider = new XmsProducerProvider(transactional);
+        }
+        
+        public bool Transactional { get; set; }
+        // TODO: remove this
+        public bool UseJournalQueue { get; set; }
+        // TODO: remove this
         public bool UseDeadLetterQueue { get; set; }
 
         public void Send(TransportMessage message, Address address)
         {
-            Console.WriteLine("{0}->{1}".FormatWith(message, address));
-        }
+            try
+            {
+                XmsAddress addr = address.ToXmsAddress();
+                using (var producer = provider.GetProducer(addr))
+                {
+                    var xmsMessage = producer.CreateBytesMessage();
+                    XmsUtilities.Convert(message, xmsMessage);
+                    producer.Send(xmsMessage);
+                    message.Id = xmsMessage.JMSMessageID;
+                   
+                }
+            }
+            // TODO: QueueNotFoundException
+            catch (Exception ex)
+            {
+                if (address == null)
+                    throw new FailedToSendMessageException("Failed to send message.", ex);
 
+                throw new FailedToSendMessageException(
+                    string.Format("Failed to send message to address: {0}@{1}", address.Queue, address.Machine), ex);
+            }
+         
+        }
+        
         /*     void ISendMessages.Send(TransportMessage message, Address address)
         {
             var queuePath = MsmqUtilities.GetFullPath(address);

@@ -10,10 +10,10 @@ namespace NServiceBus.Xms
         {
             Selected = true;
 
-            config.Configurer.ConfigureComponent<XmsReceiveMessages>(DependencyLifecycle.SingleInstance)
+            config.Configurer.ConfigureComponent<XmsMessageReceiver>(DependencyLifecycle.SingleInstance)
                   .ConfigureProperty(p => p.PurgeOnStartup, ConfigurePurging.PurgeRequested);
 
-            config.Configurer.ConfigureComponent<XmsSendMessages>(DependencyLifecycle.SingleInstance);
+            config.Configurer.ConfigureComponent(() => new XmsMessageSender(Unicast.Transport.Transactional.Config.Bootstrapper.IsTransactional),DependencyLifecycle.SingleInstance);
 
             var cfg = Configure.GetConfigSection<XmsMessageQueueConfig>();
 
@@ -25,8 +25,8 @@ namespace NServiceBus.Xms
                 useJournalQueue = cfg.UseJournalQueue;
                 useDeadLetterQueue = cfg.UseDeadLetterQueue;
             }
-            config.Configurer.ConfigureProperty<XmsSendMessages>(t => t.UseDeadLetterQueue, useDeadLetterQueue);
-            config.Configurer.ConfigureProperty<XmsSendMessages>(t => t.UseJournalQueue, useJournalQueue);
+            config.Configurer.ConfigureProperty<XmsMessageSender>(t => t.UseDeadLetterQueue, useDeadLetterQueue);
+            config.Configurer.ConfigureProperty<XmsMessageSender>(t => t.UseJournalQueue, useJournalQueue);
 
             return config;
         }

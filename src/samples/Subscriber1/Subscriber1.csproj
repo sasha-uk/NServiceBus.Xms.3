@@ -73,6 +73,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NServiceBus.Xms\NServiceBus.Xms.csproj">
+      <Project>{FBE40802-D0FC-4DF5-B7A4-B061283C7CDB}</Project>
+      <Name>NServiceBus.Xms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Messages\Messages.csproj">
       <Project>{CA8A5462-8E1B-4416-B71B-17E67F77B48D}</Project>
       <Name>Messages</Name>

@@ -3,7 +3,7 @@ using NServiceBus.Unicast.Transport;
 
 namespace NServiceBus.Xms
 {
-    public class XmsReceiveMessages : IReceiveMessages
+    public class XmsMessageReceiver : IReceiveMessages
     {
         public void Init(Address address, bool transactional)
         {

@@ -78,8 +78,8 @@
     <Compile Include="XmsPooledProducer.cs" />
     <Compile Include="XmsProducer.cs" />
     <Compile Include="XmsProducerProvider.cs" />
-    <Compile Include="XmsSendMessages.cs" />
-    <Compile Include="XmsReceiveMessages.cs" />
+    <Compile Include="XmsMessageSender.cs" />
+    <Compile Include="XmsMessageReceiver.cs" />
     <Compile Include="XmsUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
