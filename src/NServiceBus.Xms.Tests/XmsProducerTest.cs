@@ -1,4 +1,5 @@
-﻿using System.Transactions;
+﻿using System.Threading.Tasks;
+using System.Transactions;
 using NUnit.Framework;
 
 namespace NServiceBus.Xms.Tests
@@ -43,6 +44,30 @@ namespace NServiceBus.Xms.Tests
             var after = XmsUtilities.GetCurrentQueueDebth(address);
 
             Assert.That(after, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void The_same_producer_can_be_accessed_on_two_different_threads_give_trat_the_transaction_scopes_do_not_collide()
+        {
+            var producer = new XmsProducer(address, true);
+
+            using (var scope = new TransactionScope(TransactionScopeOption.Required))
+            {    
+                producer.SendTestMessage(address);
+                scope.Complete();
+            }
+            var aaa = Task.Run(() =>
+            {
+                using (var scope2 = new TransactionScope(TransactionScopeOption.Required))
+                {
+                    producer.SendTestMessage(address);
+                    scope2.Complete();
+                }
+            });
+            aaa.Wait();
+            
+            var after = XmsUtilities.GetCurrentQueueDebth(address);
+            Assert.That(after, Is.EqualTo(2));
         }
 
         [Test]

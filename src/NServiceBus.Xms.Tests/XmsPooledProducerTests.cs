@@ -1,4 +1,5 @@
-﻿using NServiceBus.Xms.Pooling;
+﻿using System.Transactions;
+using NServiceBus.Xms.Pooling;
 using NUnit.Framework;
 
 namespace NServiceBus.Xms.Tests
@@ -41,6 +42,31 @@ namespace NServiceBus.Xms.Tests
             Assert.That(store.Count, Is.EqualTo(1));
             Assert.That(actual, Is.SameAs(expected));
         }
+
+
+        /*[Test]
+        public void GIVEN_existing_producer_in_pool_WHEN_aquiring_producer_THEN_the_existing_producer_is_returned2()
+        {
+            var pool = new Pool<XmsPooledProducer>(1, p => CreateFailingStub(p), store);
+            Assert.That(store.Count, Is.EqualTo(0));
+
+            XmsPooledProducer expected;
+            XmsPooledProducer actual;
+
+            using (var scope = new TransactionScope(TransactionScopeOption.Required))
+            {
+                using (var producer = pool.Acquire())
+                {
+                    producer.SendTestMessage(address);
+                }
+                using (var producer = pool.Acquire())
+                {
+                    producer.SendTestMessage(address);
+                }
+                scope.Complete();
+            }
+            Assert.That(store.Count, Is.EqualTo(2));
+        }*/
 
         [Test]
         public void GIVEN_failed_producer_THEN_it_is_not_returned_to_the_pool()

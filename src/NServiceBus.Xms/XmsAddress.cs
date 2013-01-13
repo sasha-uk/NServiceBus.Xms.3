@@ -18,6 +18,27 @@ namespace NServiceBus.Xms
         {
             return "{0}@{1}/{2}/{3}/{4}".FormatWith(Queue, Host.Manager, Host.HostName, Host.Port, Host.Channel);
         }
+
+        protected bool Equals(XmsAddress other)
+        {
+            return string.Equals(Queue, other.Queue) && Equals(Host, other.Host);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((XmsAddress) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Queue != null ? Queue.GetHashCode() : 0)*397) ^ (Host != null ? Host.GetHashCode() : 0);
+            }
+        }
     }
 
     public static class XmsAddressExtensions

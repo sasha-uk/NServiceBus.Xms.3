@@ -63,6 +63,7 @@
     <Compile Include="XmsConsumerTest.cs" />
     <Compile Include="XmsPooledConsumerTests.cs" />
     <Compile Include="XmsPooledProducerTests.cs" />
+    <Compile Include="XmsProducerProviderTest.cs" />
     <Compile Include="XmsProducerStub.cs" />
     <Compile Include="XmsProducerTest.cs" />
   </ItemGroup>
