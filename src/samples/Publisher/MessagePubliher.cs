@@ -6,6 +6,7 @@ using System.Transactions;
 using Messages;
 using NServiceBus;
 using NServiceBus.Xms;
+using NServiceBus.Xms.Utils;
 using log4net;
 
 namespace Publisher

@@ -1,4 +1,5 @@
 ﻿using System;
+using NServiceBus.Xms.Utils;
 
 namespace NServiceBus.Xms
 {

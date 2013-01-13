@@ -1,6 +1,7 @@
 ﻿using System;
 using NServiceBus.Unicast.Queuing;
 using NServiceBus.Unicast.Transport;
+using NServiceBus.Xms.Utils;
 
 namespace NServiceBus.Xms
 {

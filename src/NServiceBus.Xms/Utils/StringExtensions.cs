@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace NServiceBus.Xms
+namespace NServiceBus.Xms.Utils
 {
     public static class StringExtensions
     {
