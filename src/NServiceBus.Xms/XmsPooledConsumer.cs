@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Transactions;
 using NServiceBus.Xms.Pooling;
 using log4net;
 
@@ -37,6 +38,18 @@ namespace NServiceBus.Xms
         }
 
         public void Dispose()
+        {
+            // we cannot return the instance into the pool before the tranaction scope completes
+            var transaction = Transaction.Current;
+            /*if (transaction != null)
+                transaction.TransactionCompleted += (s, e) => DoDispose();
+            else
+                DoDispose();*/
+            if (transaction == null)
+                DoDispose();
+        }
+
+        private void DoDispose()
         {
             if (pool.IsDisposed)
             {

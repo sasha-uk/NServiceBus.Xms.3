@@ -1,4 +1,5 @@
 ﻿using System;
+using IBM.XMS;
 using NUnit.Framework;
 
 namespace NServiceBus.Xms.Tests
@@ -10,13 +11,13 @@ namespace NServiceBus.Xms.Tests
         public void WHEN_ToString_THEN_returns_correctly_formated_string()
         {
             var address = new XmsAddress("QUEUE", new XmsHost("MANAGER", "HOSTNAME", 42, "CHANNEL"));
-            Assert.That(address.ToString(), Is.EqualTo("QUEUE@MANAGER/HOSTNAME/42/CHANNEL"));
+            Assert.That(address.ToString(), Is.EqualTo("QUEUE@MANAGER:HOSTNAME:42:CHANNEL"));
         }
 
         [Test]
         public void GIVEN_existing_ns_address_WHEN_parsed_to_xms_THEN_values_match()
         {
-            var address = new Address("QUEUE", "MANAGER/HOSTNAME/42/CHANNEL");
+            var address = new Address("QUEUE", "MANAGER:HOSTNAME:42:CHANNEL");
             var xms = address.ToXmsAddress();
             Assert.That(xms.Queue, Is.EqualTo("QUEUE"));
             Assert.That(xms.Host.Manager, Is.EqualTo("MANAGER"));

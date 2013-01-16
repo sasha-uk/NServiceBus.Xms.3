@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigureXmsMessageQueue.cs" />
+    <Compile Include="XmsConsumerProvider.cs" />
     <Compile Include="IXmsConsumer.cs" />
     <Compile Include="IXmsProducer.cs" />
     <Compile Include="Pooling\StackStore.cs" />

@@ -1,3 +1,4 @@
+using System.Configuration;
 using Autofac;
 using Messages;
 using NServiceBus.Xms;
@@ -15,17 +16,17 @@ namespace Subscriber1
     {
         public void Init()
         {
-            SetLoggingLibrary.Log4Net(XmlConfigurator.Configure);
+            //SetLoggingLibrary.Log4Net(XmlConfigurator.Configure);
 
             var builder = new ContainerBuilder();
-            IContainer container = builder.Build();
+            var container = builder.Build();
 
-            Configure.With()
+            Configure
+                .With()
+                .DefineEndpointName(() => ConfigurationManager.AppSettings["inputQueueName"])
                 .AutofacBuilder(container)
+                .DisableSecondLevelRetries() // TODO:
                 .XmlSerializer(Namespaces.Default)
-                /*.MsmqTransport()
-                    .IsTransactional(true)
-                    .PurgeOnStartup(false)*/
                 .XmsTransport()
                     .IsTransactional(true)
                     .PurgeOnStartup(false)

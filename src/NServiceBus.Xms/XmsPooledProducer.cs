@@ -19,12 +19,6 @@ namespace NServiceBus.Xms
             this.producer = producer;
         }
 
-        // TODO: do we need this?
-        public IXmsProducer Producer
-        {
-            get { return producer; }
-        }
-
         public void Send(IBM.XMS.IMessage message)
         {
             TrackErrors(
@@ -64,6 +58,35 @@ namespace NServiceBus.Xms
         {
             // we cannot return the instance into the pool before the tranaction scope completes
             var transaction = Transaction.Current;
+            /*if (transaction != null)
+                transaction.TransactionCompleted += (s, e) => DoDispose();
+            else
+                DoDispose();*/
+            if (transaction == null)
+                DoDispose();
+        }
+
+        private void DoDispose()
+        {
+            if (pool.IsDisposed)
+            {
+                producer.Dispose();
+                return;
+            }
+
+            if (faulted)
+            {
+                pool.Release(null);
+                return;
+            }
+
+            pool.Release(this);
+        }
+
+        /*public void Dispose()
+        {
+            // we cannot return the instance into the pool before the tranaction scope completes
+            var transaction = Transaction.Current;
             if (transaction != null)
                 transaction.TransactionCompleted += (s, e) => DoDispose();
             else
@@ -85,7 +108,7 @@ namespace NServiceBus.Xms
             }
 
             pool.Release(this);
-        }
+        }*/
 
         // this should only be called by the pool
         public void Expire()

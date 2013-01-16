@@ -16,7 +16,7 @@ namespace NServiceBus.Xms
 
         public override string ToString()
         {
-            return "{0}@{1}/{2}/{3}/{4}".FormatWith(Queue, Host.Manager, Host.HostName, Host.Port, Host.Channel);
+            return "{0}@{1}".FormatWith(Queue, Host);
         }
 
         protected bool Equals(XmsAddress other)
@@ -43,6 +43,8 @@ namespace NServiceBus.Xms
 
     public static class XmsAddressExtensions
     {
+        
+
         public static XmsAddress ToXmsAddress(this Address address)
         {
             return address.ToString().ToXmsAddress();
@@ -50,18 +52,32 @@ namespace NServiceBus.Xms
 
         public static XmsAddress ToXmsAddress(this string address)
         {
+            if (address == null) return null;
             try
             {
                 var parts = address.ToUpper().Split('@');
 
                 var queueName = parts[0];
-                var args = parts[1].Split('/');
+                var args = parts[1].Split(XmsHost.Separator);
                 var queueManager = args[0];
                 var hostName = args[1];
                 var port = int.Parse(args[2]);
                 var channel = args.Length > 3 ? args[3] : string.Empty;
 
                 return new XmsAddress(queueName, new XmsHost(queueManager, hostName, port, channel));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to parse {0} to xms address.".FormatWith(address), ex);
+            }
+        }
+
+        public static Address ToNsbAddress(this XmsAddress address)
+        {
+            if (address == null) return null;
+            try
+            {
+                return new Address(address.Queue, address.Host.ToString());
             }
             catch (Exception ex)
             {

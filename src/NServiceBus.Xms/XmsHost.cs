@@ -1,7 +1,10 @@
-﻿namespace NServiceBus.Xms
+﻿using NServiceBus.Xms.Utils;
+
+namespace NServiceBus.Xms
 {
     public class XmsHost
     {
+        public const char Separator = ':';
         public string HostName { get; private set; }
         public int Port { get; private set; }
         public string Channel { get; private set; }
@@ -18,6 +21,12 @@
         public string ConnectionName
         {
             get { return string.Format("{0}({1})", HostName, Port); }
+        }
+
+        public override string ToString()
+        {
+            return string.Join(Separator.ToString(), Manager, HostName, Port.ToString(), Channel);
+            //return "{0}/{1}/{2}/{3}".FormatWith(Manager, HostName, Port, Channel);
         }
 
         protected bool Equals(XmsHost other)

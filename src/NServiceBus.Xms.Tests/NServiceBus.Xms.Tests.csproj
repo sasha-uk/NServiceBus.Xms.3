@@ -66,6 +66,7 @@
     <Compile Include="XmsProducerProviderTest.cs" />
     <Compile Include="XmsProducerStub.cs" />
     <Compile Include="XmsProducerTest.cs" />
+    <Compile Include="XmsUtilitiesTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
