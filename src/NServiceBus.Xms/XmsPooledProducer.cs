@@ -40,19 +40,7 @@ namespace NServiceBus.Xms
         }
 
 
-        private T TrackErrors<T>(Func<T> action)
-        {
-            try
-            {
-                return action();
-            }
-            catch
-            {
-                faulted = true;
-                log.Warn("Detected an error with this MQ connection. It will be disposed of and replaced with new one at the nearest oportunity.");
-                throw;
-            }
-        }
+      
 
         public void Dispose()
         {
@@ -83,37 +71,23 @@ namespace NServiceBus.Xms
             pool.Release(this);
         }
 
-        /*public void Dispose()
-        {
-            // we cannot return the instance into the pool before the tranaction scope completes
-            var transaction = Transaction.Current;
-            if (transaction != null)
-                transaction.TransactionCompleted += (s, e) => DoDispose();
-            else
-                DoDispose();
-        }
-
-        private void DoDispose()
-        {
-            if (pool.IsDisposed)
-            {
-                producer.Dispose();
-                return;
-            }
-
-            if (faulted)
-            {
-                pool.Release(null);
-                return;
-            }
-
-            pool.Release(this);
-        }*/
-
-        // this should only be called by the pool
         public void Expire()
         {
             producer.Dispose();
+        }
+
+        private T TrackErrors<T>(Func<T> action)
+        {
+            try
+            {
+                return action();
+            }
+            catch
+            {
+                faulted = true;
+                log.Warn("Detected an error with this MQ connection. It will be disposed of and replaced with new one at the nearest oportunity.");
+                throw;
+            }
         }
     }
 }

@@ -18,23 +18,14 @@ namespace NServiceBus.Xms
             this.consumer = consumer;
         }
 
-        public IXmsConsumer Consumer
+        public IBM.XMS.IMessage ReceiveNoWait()
         {
-            get { return consumer; }
+            return TrackErrors(() => consumer.ReceiveNoWait());
         }
 
-        private T TrackErrors<T>(Func<T> action)
+        public IBM.XMS.IMessage Receive(int milisecondsToWaitForMessage)
         {
-            try
-            {
-                return action();
-            }
-            catch
-            {
-                faulted = true;
-                log.Warn("Detected an error with this MQ connection. It will be disposed of and replaced with new one at the nearest oportunity.");
-                throw;
-            }
+            return TrackErrors(() => consumer.Receive(milisecondsToWaitForMessage));
         }
 
         public void Dispose()
@@ -71,14 +62,18 @@ namespace NServiceBus.Xms
             consumer.Dispose();
         }
 
-        public IBM.XMS.IMessage ReceiveNoWait()
+        private T TrackErrors<T>(Func<T> action)
         {
-            return TrackErrors(() => consumer.ReceiveNoWait());
-        }
-
-        public IBM.XMS.IMessage Receive(int milisecondsToWaitForMessage)
-        {
-            return TrackErrors(() => consumer.Receive(milisecondsToWaitForMessage));
+            try
+            {
+                return action();
+            }
+            catch
+            {
+                faulted = true;
+                log.Warn("Detected an error with this MQ connection. It will be disposed of and replaced with new one at the nearest oportunity.");
+                throw;
+            }
         }
     }
 }

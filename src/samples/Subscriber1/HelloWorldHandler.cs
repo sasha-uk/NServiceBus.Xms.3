@@ -6,6 +6,7 @@ namespace Subscriber1
 {
     public class HelloWorldHandler : IHandleMessages<HelloWorld>
     {
+        private static int counter;
         private readonly IBus bus;
 
         public HelloWorldHandler(IBus bus)
@@ -15,7 +16,8 @@ namespace Subscriber1
 
         public void Handle(HelloWorld message)
         {
-            Console.WriteLine("HelloWorld:" + DateTime.UtcNow);
+            System.Threading.Interlocked.Increment(ref counter);
+            Console.WriteLine(counter + " HelloWorld:" + DateTime.UtcNow);
         }
     }
 }
