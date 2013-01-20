@@ -6,5 +6,6 @@ namespace NServiceBus.Xms
     {
         IBM.XMS.IMessage ReceiveNoWait();
         IBM.XMS.IMessage Receive(int milisecondsToWaitForMessage);
+        IBM.XMS.IMessage Receive();
     }
 }

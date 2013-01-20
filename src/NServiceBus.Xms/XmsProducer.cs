@@ -27,10 +27,9 @@ namespace NServiceBus.Xms
             log.Debug("New physical producer created. About to connect.");
             factory = XmsUtilities.CreateConnectionFactory(address);
             connection = factory.CreateConnection();
-            connection.ExceptionListener += OnError;
             session = connection.CreateSession(transactional, AcknowledgeMode.AutoAcknowledge);
             queue = session.CreateQueue(address.Queue);
-            queue.SetIntProperty(XMSC.DELIVERY_MODE, XMSC.DELIVERY_PERSISTENT);
+            queue.SetIntProperty(XMSC.DELIVERY_MODE, transactional ? XMSC.DELIVERY_PERSISTENT : XMSC.DELIVERY_NOT_PERSISTENT);
             producer = session.CreateProducer(queue);
             connected = true;
             log.Debug("New physical producer successfully connected.");
@@ -66,11 +65,6 @@ namespace NServiceBus.Xms
         public void Dispose()
         {
             Disconnect();
-        }
-
-        private void OnError(Exception ex)
-        {
-            log.Error(ex);
         }
 
         public ITextMessage CreateTextMessage()

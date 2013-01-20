@@ -76,16 +76,25 @@ namespace Publisher
             {
                 try
                 {
-                    var options = new TransactionOptions
+                    if (EndpointConfig.Transactional)
+                    {
+                        var options = new TransactionOptions
                         {
                             IsolationLevel = IsolationLevel.ReadCommitted,
                             Timeout = TimeSpan.FromSeconds(10)
                         };
-                    using (var scope = new TransactionScope(TransactionScopeOption.Required, options))
+
+                        using (var scope = new TransactionScope(TransactionScopeOption.Required, options))
+                        {
+                            bus.Publish<HelloWorld>(m => { m.Date = DateTime.Now; });
+                            scope.Complete();
+                        }
+                    }
+                    else
                     {
                         bus.Publish<HelloWorld>(m => { m.Date = DateTime.Now; });
-                        scope.Complete();
                     }
+                    
                 }
                 catch (Exception ex)
                 {

@@ -13,7 +13,7 @@ namespace NServiceBus.Xms.Tests
             }
         }
 */
-        public static string SendTestMessage(this IXmsProducer producer, XmsAddress destination)
+        public static string SendTestMessage(this IXmsProducer producer)
         {
             var msg = producer.CreateTextMessage();
             msg.Text = "message";

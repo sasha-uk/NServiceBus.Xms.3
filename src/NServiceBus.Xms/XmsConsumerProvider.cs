@@ -62,12 +62,15 @@ namespace NServiceBus.Xms
                 {
                     log.Debug("Allocating consumer to a transaction scope {0}".FormatWith(key));
                     var pooled = pool.Acquire();
+                    
                     threadAllocatedConsumers[key] = pooled;
                     XmsPooledConsumer _;
+                    
                     transaction.TransactionCompleted += (s, e) =>
                         {
                             log.Debug("Dealocating consumer from transaction scope {0}.".FormatWith(key));
                             threadAllocatedConsumers.TryRemove(key, out _);
+                            pooled.TransactionCompleted();
                             pooled.Dispose();
                         };
                 }

@@ -5,7 +5,8 @@ namespace NServiceBus.Xms.Tests
     public class XmsConsumerStub : IXmsConsumer
     {
         private Func<IBM.XMS.IMessage> receiveNoWaitAction = () => null;
-        private Func<int, IBM.XMS.IMessage> receiveAction = x => null;
+        private Func<int, IBM.XMS.IMessage> receiveActionMilliseonds = x => null;
+        private Func<IBM.XMS.IMessage> receiveAction;
 
         public void Dispose()
         {
@@ -24,13 +25,24 @@ namespace NServiceBus.Xms.Tests
 
         public XmsConsumerStub StubReceive(Func<int, IBM.XMS.IMessage> action)
         {
-            receiveAction = action;
+            receiveActionMilliseonds = action;
             return this;
         }
 
         public IBM.XMS.IMessage Receive(int milisecondsToWaitForMessage)
         {
-            return receiveAction(milisecondsToWaitForMessage);
+            return receiveActionMilliseonds(milisecondsToWaitForMessage);
+        }
+
+        public XmsConsumerStub StubReceive(Func<IBM.XMS.IMessage> action)
+        {
+            receiveAction = action;
+            return this;
+        }
+
+        public IBM.XMS.IMessage Receive()
+        {
+            return receiveAction();
         }
     }
 }

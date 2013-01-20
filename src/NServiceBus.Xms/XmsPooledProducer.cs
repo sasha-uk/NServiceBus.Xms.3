@@ -12,6 +12,7 @@ namespace NServiceBus.Xms
         private readonly Pool<XmsPooledProducer> pool;
         private readonly IXmsProducer producer;
         private bool faulted;
+        private bool inTransaction;
 
         public XmsPooledProducer(Pool<XmsPooledProducer> pool, IXmsProducer producer)
         {
@@ -39,18 +40,9 @@ namespace NServiceBus.Xms
             return TrackErrors(() => producer.CreateTextMessage());
         }
 
-
-      
-
         public void Dispose()
         {
-            // we cannot return the instance into the pool before the tranaction scope completes
-            var transaction = Transaction.Current;
-            /*if (transaction != null)
-                transaction.TransactionCompleted += (s, e) => DoDispose();
-            else
-                DoDispose();*/
-            if (transaction == null)
+            if (!inTransaction)
                 DoDispose();
         }
 
@@ -80,6 +72,10 @@ namespace NServiceBus.Xms
         {
             try
             {
+                if (Transaction.Current != null)
+                {
+                    inTransaction = true;
+                }
                 return action();
             }
             catch
@@ -88,6 +84,11 @@ namespace NServiceBus.Xms
                 log.Warn("Detected an error with this MQ connection. It will be disposed of and replaced with new one at the nearest oportunity.");
                 throw;
             }
+        }
+
+        public void TransactionCompleted()
+        {
+            inTransaction = false;
         }
     }
 }

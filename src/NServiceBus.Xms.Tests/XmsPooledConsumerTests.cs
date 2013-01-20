@@ -73,7 +73,7 @@ namespace NServiceBus.Xms.Tests
         public void GIVEN_non_transactional_pool_WHEN_send_THEN_message_is_enqueued()
         {
             using (var producer = new XmsProducer(address, false))
-                producer.SendTestMessage(address);
+                producer.SendTestMessage();
 
             IBM.XMS.IMessage message;
             using (var pool = new Pool<XmsPooledConsumer>(2, p => new XmsPooledConsumer(p, new XmsConsumer(address, false)), store))

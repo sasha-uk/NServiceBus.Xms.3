@@ -101,7 +101,7 @@ namespace NServiceBus.Xms.Tests
             using (var pool = new Pool<XmsPooledProducer>(2, p => new XmsPooledProducer(p, new XmsProducer(address, false)), store))
             using (var producer = pool.Acquire())
             {
-                producer.SendTestMessage(address);
+                producer.SendTestMessage();
             }
             address.AssertMessageCount(1);
         }

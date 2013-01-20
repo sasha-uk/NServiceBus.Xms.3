@@ -43,7 +43,7 @@ namespace NServiceBus.Xms.Tests
             string actual;
             using (var consumer = new XmsConsumer(address, false))
             {
-                var msg = (IBytesMessage)consumer.Receive(10);
+                var msg = (IBytesMessage)consumer.Receive();
                 actual = msg.ReadUTF();
             }
             Assert.That(actual, Is.EqualTo(expected));

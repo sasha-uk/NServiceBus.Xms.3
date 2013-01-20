@@ -26,16 +26,14 @@ namespace NServiceBus.Xms
         {
             factory = XmsUtilities.CreateConnectionFactory(address);
             connection = factory.CreateConnection();
-            connection.ExceptionListener += OnError;
             session = connection.CreateSession(transactional, AcknowledgeMode.AutoAcknowledge);
             queue = session.CreateQueue(address.Queue);
-            queue.SetIntProperty(XMSC.DELIVERY_MODE,
-                                 transactional ? XMSC.DELIVERY_PERSISTENT : XMSC.DELIVERY_NOT_PERSISTENT);
+            queue.SetIntProperty(XMSC.DELIVERY_MODE, transactional ? XMSC.DELIVERY_PERSISTENT : XMSC.DELIVERY_NOT_PERSISTENT);
             consumer = session.CreateConsumer(queue);
             connection.Start();
             connected = true;
         }
-        
+
         public IBM.XMS.IMessage ReceiveNoWait()
         {
             if (!connected) Connect();
@@ -46,8 +44,15 @@ namespace NServiceBus.Xms
         public IBM.XMS.IMessage Receive(int milisecondsToWaitForMessage)
         {
             if (!connected) Connect();
-            var message = consumer.Receive(milisecondsToWaitForMessage);
-            return message;
+            if (milisecondsToWaitForMessage < 0)
+                return consumer.Receive();
+            return consumer.Receive(milisecondsToWaitForMessage);
+        }
+
+        public IBM.XMS.IMessage Receive()
+        {
+            if (!connected) Connect();
+            return consumer.Receive();
         }
 
         private void Disconnect()
@@ -72,10 +77,12 @@ namespace NServiceBus.Xms
         {
             Disconnect();
         }
-
+/*
         private void OnError(Exception ex)
         {
-            log.Error(ex);
-        }
+            log.Error("OnError" + ex);
+        }*/
+
+        
     }
 }

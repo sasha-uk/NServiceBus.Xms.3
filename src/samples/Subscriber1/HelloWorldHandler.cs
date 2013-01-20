@@ -1,6 +1,7 @@
 using System;
 using Messages;
 using NServiceBus;
+using log4net;
 
 namespace Subscriber1
 {
@@ -8,6 +9,7 @@ namespace Subscriber1
     {
         private static int counter;
         private readonly IBus bus;
+        private static readonly ILog log = LogManager.GetLogger(typeof (HelloWorldHandler));
 
         public HelloWorldHandler(IBus bus)
         {
@@ -17,7 +19,7 @@ namespace Subscriber1
         public void Handle(HelloWorld message)
         {
             System.Threading.Interlocked.Increment(ref counter);
-            Console.WriteLine(counter + " HelloWorld:" + DateTime.UtcNow);
+            log.Info(counter + " HelloWorld");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace NServiceBus.Xms
         {
             using (var consumer = consumerProducer.GetConsumer(address))
             {
-                var message = consumer.Receive(10000);
+                var message = consumer.Receive();
                 if (message == null)
                     return null;
                 var result = XmsUtilities.Convert(message);

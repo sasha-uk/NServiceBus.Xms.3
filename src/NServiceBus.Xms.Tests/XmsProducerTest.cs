@@ -67,14 +67,14 @@ namespace NServiceBus.Xms.Tests
 
             using (var scope = new TransactionScope(TransactionScopeOption.Required))
             {    
-                producer.SendTestMessage(address);
+                producer.SendTestMessage();
                 scope.Complete();
             }
             var aaa = Task.Run(() =>
             {
                 using (var scope2 = new TransactionScope(TransactionScopeOption.Required))
                 {
-                    producer.SendTestMessage(address);
+                    producer.SendTestMessage();
                     scope2.Complete();
                 }
             });

@@ -68,6 +68,7 @@ namespace NServiceBus.Xms
                         {
                             log.Debug("Dealocating producer from transaction scope {0}.".FormatWith(key));
                             threadAllocatedProducers.TryRemove(key, out _);
+                            pooled.TransactionCompleted();
                             pooled.Dispose();
                         };
                 }

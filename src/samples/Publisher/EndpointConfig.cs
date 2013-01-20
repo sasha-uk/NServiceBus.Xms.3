@@ -16,6 +16,8 @@ namespace Publisher
 	*/
     public class EndpointConfig : IConfigureThisEndpoint, IWantCustomInitialization
     {
+        public static readonly bool Transactional = true;
+
         public void Init()
         {
             var builder = new ContainerBuilder();
@@ -30,7 +32,7 @@ namespace Publisher
                 .XmlSerializer(Namespaces.Default)
                 .InMemorySubscriptionStorage()
                 .XmsTransport()
-                    .IsTransactional(true)
+                    .IsTransactional(Transactional)
                     .PurgeOnStartup(false)
                 .UnicastBus()
                     .ImpersonateSender(false)
