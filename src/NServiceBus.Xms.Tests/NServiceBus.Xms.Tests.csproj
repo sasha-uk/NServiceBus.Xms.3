@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBM_PeningTransactions_Issue.cs" />
+    <Compile Include="Integration\IBM_PeningTransactions_Issue.cs" />
     <Compile Include="XmsConsumerProviderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestException.cs" />

@@ -76,13 +76,6 @@ namespace NServiceBus.Xms
         public void Dispose()
         {
             Disconnect();
-        }
-/*
-        private void OnError(Exception ex)
-        {
-            log.Error("OnError" + ex);
-        }*/
-
-        
+        }        
     }
 }
